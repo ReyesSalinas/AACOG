@@ -1,1 +1,2 @@
 C:\Users\deathnell\Desktop\UserInterface\GameTest\GameTest\bin\Debug\GameTest.exe.config
+C:\Users\deathnell\Documents\DungeonOfDoom\GameTest\GameTest\bin\Debug\GameTest.exe.config

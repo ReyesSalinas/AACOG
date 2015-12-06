@@ -1,0 +1,5 @@
+C:\Users\deathnell\Desktop\UserInterface\Library.Interfaces\Library.Interfaces\bin\Debug\Library.Interfaces.dll
+C:\Users\deathnell\Desktop\UserInterface\Library.Interfaces\Library.Interfaces\bin\Debug\Library.Interfaces.pdb
+C:\Users\deathnell\Desktop\UserInterface\Library.Interfaces\Library.Interfaces\obj\Debug\Library.Interfaces.csprojResolveAssemblyReference.cache
+C:\Users\deathnell\Desktop\UserInterface\Library.Interfaces\Library.Interfaces\obj\Debug\Library.Interfaces.dll
+C:\Users\deathnell\Desktop\UserInterface\Library.Interfaces\Library.Interfaces\obj\Debug\Library.Interfaces.pdb
