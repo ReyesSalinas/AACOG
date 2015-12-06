@@ -1,2 +1,8 @@
 C:\Users\deathnell\Desktop\UserInterface\GameTest\GameTest\bin\Debug\GameTest.exe.config
 C:\Users\deathnell\Documents\DungeonOfDoom\GameTest\GameTest\bin\Debug\GameTest.exe.config
+C:\Users\rsalinas\Documents\DungeonOfDoom\GameTest\GameTest\bin\Debug\GameTest.exe.config
+C:\Users\rsalinas\Documents\DungeonOfDoom\GameTest\GameTest\bin\Debug\GameTest.exe
+C:\Users\rsalinas\Documents\DungeonOfDoom\GameTest\GameTest\bin\Debug\GameTest.pdb
+C:\Users\rsalinas\Documents\DungeonOfDoom\GameTest\GameTest\obj\Debug\GameTest.csprojResolveAssemblyReference.cache
+C:\Users\rsalinas\Documents\DungeonOfDoom\GameTest\GameTest\obj\Debug\GameTest.exe
+C:\Users\rsalinas\Documents\DungeonOfDoom\GameTest\GameTest\obj\Debug\GameTest.pdb

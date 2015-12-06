@@ -1,4 +1,5 @@
-﻿using Library.Interfaces.JobTests;
+﻿using System.Collections.Generic;
+using Library.Interfaces.JobTests;
 using Library.Interfaces.JobTests.Fighter;
 using Library.Interfaces.JobTests.Fighter.Interfaces;
 
@@ -12,13 +13,14 @@ namespace Library.Interfaces
     {
         string JobName { get; }
         int JobLevel { get; set; }
+        List<int> HitPoints { get; set; }
         ProgressionType HitPointProgressionType { get; }
         ProgressionType SkillRankProgressionType { get; }
         ProgressionType BaseAttackProgressionType { get; }
         ProgressionType FortitudeSaveProgressionType { get; }
         ProgressionType ReflexSaveProgressionType { get;  }
         ProgressionType WillSaveProgressionType { get;  }
-        BaseStats BaseStats { get; set; }
+        JobBaseStats BaseStats { get; set; }
         IBonusSet JobBonuses { get; set; }
     }
 }

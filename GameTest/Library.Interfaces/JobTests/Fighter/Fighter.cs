@@ -23,6 +23,7 @@ namespace Library.Interfaces.JobTests.Fighter
         }
 
         public int JobLevel { get; set; }
+        public List<int> HitPoints { get; set; }
 
         public ProgressionType HitPointProgressionType { get; } = ProgressionType.Great;
         public ProgressionType BaseAttackProgressionType { get; } = ProgressionType.Great; 
@@ -30,21 +31,50 @@ namespace Library.Interfaces.JobTests.Fighter
         public ProgressionType ReflexSaveProgressionType { get; }= ProgressionType.Bad;
         public ProgressionType WillSaveProgressionType { get; }= ProgressionType.Bad;
         public ProgressionType SkillRankProgressionType { get;}= ProgressionType.Bad; 
-        public BaseStats BaseStats { get; set; }
+        public JobBaseStats BaseStats { get; set; }
         public IBonusSet JobBonuses { get; set; }
     }
 
-    public class BaseStats
+    public interface IBaseStats
     {
-        public List<int> HitPoints { get; set; }
-        public List<int> SkillsRanks { get; set; } 
+        int SkillsRanks { get; set; }
+        int AttackBonus { get; set; }
+        int FortitudesSaveBonus { get; set; }
+        int ReflexSaveBonus { get; set; }
+        int WillSavesBonus { get; set; }
+    }
+
+    public interface ICharcterStats:IBaseStats
+    {
+        int HitPoints { get; set; }
+    }
+
+    public interface IJobStats:IBaseStats
+    {
+        List<int> HitPoints { get; set; }
+       
+    }
+    public class CharacterBaseStats:ICharcterStats
+    {
+        public int SkillsRanks { get; set; }
         public int AttackBonus { get; set; }
         public int FortitudesSaveBonus { get; set; }
         public int ReflexSaveBonus { get; set; }
-        public int WillSaverBonus { get; set; }
+        public int WillSavesBonus { get; set; }
+        public int HitPoints { get; set; }
     }
 
-    public class LevelingService
+    public class JobBaseStats : IJobStats
+    {
+        public int SkillsRanks { get; set; }
+        public int AttackBonus { get; set; }
+        public int FortitudesSaveBonus { get; set; }
+        public int ReflexSaveBonus { get; set; }
+        public int WillSavesBonus { get; set; }
+        public List<int> HitPoints { get; set; }
+    }
+
+    public class JobLevelingService:ILevelingServce
     {
        
 
@@ -81,64 +111,74 @@ namespace Library.Interfaces.JobTests.Fighter
         {
             int totalBaseSave;
 
-            foreach (var job in character.Job)
+            foreach (var job in character.Jobs)
             {
                 // after reaching epic levels( > 20) you gain one point to your saves per level
 
 
                 job.BaseStats.FortitudesSaveBonus = SaveCalculator(job.JobLevel, job.FortitudeSaveProgressionType);
                 job.BaseStats.ReflexSaveBonus = SaveCalculator(job.JobLevel, job.ReflexSaveProgressionType);
-                job.BaseStats.WillSaverBonus = SaveCalculator(job.JobLevel, job.WillSaveProgressionType);
+                job.BaseStats.WillSavesBonus = SaveCalculator(job.JobLevel, job.WillSaveProgressionType);
             }
         }
 
         public void CalculateJobAttackBonus(ICharacter character)
         {
-            foreach (var job in character.Job)
+            foreach (var job in character.Jobs)
             {
                 job.BaseStats.AttackBonus = AttackCalculator(job.JobLevel, job.BaseAttackProgressionType);
             }
         }
 
-        public void CalculateHitPoints(ICharacterJob job)
+        public void CalculateHitPoints(ICharacter character)
         {
-            switch (job.HitPointProgressionType)
+            foreach (ICharacterJob job in character.Jobs)
             {
-                case ProgressionType.Bad:
-                    job.BaseStats.HitPoints.Add(Dice.SixSided());
-                    break;
-                case ProgressionType.Good:
-                    job.BaseStats.HitPoints.Add(Dice.EightSided());
-                    break;
-                case ProgressionType.Great:
-                    job.BaseStats.HitPoints.Add(Dice.TenSided());
-                    break;
-                case ProgressionType.Epic:
-                    job.BaseStats.HitPoints.Add(Dice.TweleveSided());
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+
+
+                switch (job.HitPointProgressionType)
+                {
+                    case ProgressionType.Bad:
+                        job.BaseStats.HitPoints.Add(Dice.SixSided());
+                        break;
+                    case ProgressionType.Good:
+                        job.BaseStats.HitPoints.Add(Dice.EightSided());
+                        break;
+                    case ProgressionType.Great:
+                        job.BaseStats.HitPoints.Add(Dice.TenSided());
+                        break;
+                    case ProgressionType.Epic:
+                        job.BaseStats.HitPoints.Add(Dice.TweleveSided());
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
-        public void CalculateSkillRanks(ICharacterJob job,int intelMod)
+        public void CalculateSkillRanks(ICharacter character)
         {
-            switch (job.SkillRankProgressionType)
+            foreach (ICharacterJob job in character.Jobs)
             {
-                case ProgressionType.Bad:
-                    job.BaseStats.SkillsRanks.Add(Formulas.BadSkill(intelMod));
-                    break;
-                case ProgressionType.Good:
-                    job.BaseStats.SkillsRanks.Add(Formulas.GoodSkill(intelMod));
-                    break;
-                case ProgressionType.Great:
-                    job.BaseStats.SkillsRanks.Add(Formulas.GreatSkill(intelMod));
-                    break;
-                case ProgressionType.Epic:
-                    job.BaseStats.SkillsRanks.Add(Formulas.EpicSkill(intelMod));
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+
+
+                switch (job.SkillRankProgressionType)
+                {
+                    case ProgressionType.Bad:
+                        job.BaseStats.SkillsRanks = Formulas.BadSkill(job.JobLevel);
+                        break;
+                    case ProgressionType.Good:
+                        job.BaseStats.SkillsRanks = Formulas.GoodSkill(job.JobLevel);
+                        break;
+                    case ProgressionType.Great:
+                        job.BaseStats.SkillsRanks = Formulas.GreatSkill(job.JobLevel);
+                        break;
+                    case ProgressionType.Epic:
+                        job.BaseStats.SkillsRanks = Formulas.EpicSkill(job.JobLevel);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
         }
     }
@@ -189,26 +229,34 @@ namespace Library.Interfaces.JobTests.Fighter
 
     internal static class Formulas
     {
+
+         
+        public static int GetModifier(int stat)
+        {
+            int mod = (stat - 10)/2;
+            return mod;
+        }
+
         #region Skill Ranks
 
-        public static int BadSkill(int mod)
+        public static int BadSkill(int jobLevel)
         {
-            return 2 + mod;
+            return 2 * jobLevel;
         }
 
-        public static int GoodSkill(int mod)
+        public static int GoodSkill(int jobLevel)
         {
-            return 4 + mod;
+            return 4 * jobLevel;
         }
 
-        public static int GreatSkill(int mod)
+        public static int GreatSkill(int jobLevel)
         {
-            return 6 + mod;
+            return 6 * jobLevel;
         }
 
-        public static int EpicSkill(int mod)
+        public static int EpicSkill(int jobLevel)
         {
-            return 8 + mod;
+            return 8 * jobLevel;
         }
 
         #endregion
